@@ -4,9 +4,11 @@ GEM
     builder (3.2.2)
     rsolr (1.0.9)
       builder (>= 2.1.2)
+    trollop (2.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   rsolr (~> 1.0.9)
+  trollop (~> 2.0)
