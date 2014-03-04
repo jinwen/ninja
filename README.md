@@ -2,6 +2,6 @@ Introduction to Ninja
 ===============
 Search experts in a project or an organization
 
-Useage
+Usage
 ===============
-add ninja/bin to your PATH
+add `ninja/bin` to your `$PATH`
