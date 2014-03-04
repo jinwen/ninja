@@ -1,0 +1,12 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    builder (3.2.2)
+    rsolr (1.0.9)
+      builder (>= 2.1.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  rsolr (~> 1.0.9)
