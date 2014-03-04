@@ -4,10 +4,12 @@ p = Trollop::Parser.new do
   banner <<-EOS
 Usage:                                                                           
    ninja [command] [options]
+
 [command] are:
-  build     build solr index for a project
-  search    search a ninja
-  profile   display the ninja profile
+  build [project-name]:    build solr index for a project
+  search [keywords]:       search a ninja
+  profile [github-id]:     display the ninja profile
+
 [options] are:
   EOS
   opt :help, "print help message", :default => false
