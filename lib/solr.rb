@@ -13,17 +13,32 @@ module Ninja
     def search_keyword(s)
       response = @solr.get 'select', :params => {:q => s}
       ninjas = response["response"]["docs"].map do |ninja|
-        ninja["id"]
+        {
+          "id" => ninja["id"],
+          "name" => ninja["name"]
+        }
       end
     end
 
-    def search_profile()
-      #TODO
+    def search_profile(s)
+      response = @solr.get 'select', :params => {:q => s}
+      ninjas = response["response"]["docs"].map do |ninja|
+        ninja.keep_if {|key,value| key =~ /_i$/ || key == "name" || key == "id"}
+      end
     end
 
     def add_docs(docs)
       @solr.add docs, :add_attributes => {:commitWithin => 10}
       @solr.commit
+    end
+
+    def delete_doc(id)
+      @solr.delete_by_id id
+    end
+
+    def exist?(id)
+      response =  @solr.get 'select', :params => {:q => "id:#{id}"}
+      (response["response"]['numFound'] == 0) ? false : true
     end
 
   end

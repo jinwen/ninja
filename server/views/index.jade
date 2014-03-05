@@ -1,0 +1,35 @@
+extends layout
+
+block body
+  div.container-fluit
+    div.jumbotron
+      h1 Factual Ninja
+      a.btn.btn-primary.btn-lg Start Now!!
+  div.container
+    div.row
+      div.col-md-4
+        a(href="#")
+          img.img-responsive.img-circle(src='/images/1.jpeg')
+        h3.text-center Search
+        p This is search
+        form.form-inline(role="form")
+          input.form-control(type="text", placeholder="key words")
+          button.btn.btn-primary Search
+      div.col-md-4
+        a(href="#")
+          img.img-responsive.img-circle(src='/images/2.jpeg')
+        h3.text-center Build
+        p This is Build
+        form.form-inline(role="form")
+          input.form-control(type="text", placeholder="key words")
+          button.btn.btn-primary Search
+      div.col-md-4
+        a(href="#")
+          img.img-responsive.img-circle(src='/images/3.jpeg')
+        h3.text-center Profile
+        p This is Profile
+        form.form-inline(role="form")
+          input.form-control(type="text", placeholder="key words")
+          button.btn.btn-primary(type="submit") Search
+block body-additon
+  script(src="/javascripts/bootstrap.min.js")
