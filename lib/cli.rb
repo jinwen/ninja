@@ -30,10 +30,13 @@ when "build"
 when "search"
   ninjas = ninja.search_ninja param
   ninjas.each do |ninja|
-    puts "#{ninja['id']}: #{ninja['name']}"
+    puts "  #{ninja['id']}: #{ninja['name']}"
   end
 when "profile"
-  ninja.profile param
+  ninjas = ninja.profile param
+  ninjas.each do |ninja|
+    ninja.map {|key, value| puts "#{key} : #{value}"}
+  end
 else
   p.educate
 end
