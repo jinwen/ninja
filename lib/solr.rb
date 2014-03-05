@@ -7,8 +7,8 @@ module Ninja
   class Solr
 
     def initialize(args)
-      @url=args[:url]
-      @solr=RSolr.connect :url => @url
+      @url  = args[:url]
+      @solr = RSolr.connect :url => @url
     end
 
     def search_keyword(s)
@@ -46,6 +46,7 @@ module Ninja
       end
 
       @solr.commit
+      @solr.optimize
     end
 
     def update_doc(doc)
@@ -71,6 +72,10 @@ module Ninja
 
     def commit
       @solr.commit
+    end
+
+    def optimize
+      @solr.optimize
     end
 
     def delete_doc(id)
