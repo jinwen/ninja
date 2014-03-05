@@ -17,16 +17,14 @@ module Ninja
       puts "Building solr index for project #{project}"
       @github = Github.new(project)
       docs = @github.get_repo_info()
-      puts "finish"
       @solr_helper.add_docs(docs)
-
+      puts "DONE"
     end
 
     def search_ninja(keywords)
       puts "Searching people about \"#{keywords}\""
       solr_query = @parser.convert_to_solr_query keywords
-      ninjas = @solr_helper.search_keyword solr_query
-      puts ninjas
+      @solr_helper.search_keyword solr_query
     end
 
     def profile(id)

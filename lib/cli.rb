@@ -28,7 +28,10 @@ case cmd
 when "build"
   ninja.build_solr_index param
 when "search"
-  ninja.search_ninja param
+  ninjas = ninja.search_ninja param
+  ninjas.each do |ninja|
+    puts "#{ninja['id']}: #{ninja['name']}"
+  end
 when "profile"
   ninja.profile param
 else
