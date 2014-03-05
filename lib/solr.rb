@@ -22,8 +22,23 @@ module Ninja
     end
 
     def add_docs(docs)
+      docs.each do |doc|
+        if exist? doc['id']
+          delete_doc(doc['id']);
+        end
+      end
+
       @solr.add docs, :add_attributes => {:commitWithin => 10}
       @solr.commit
+    end
+
+    def delete_doc(id)
+      @solr.delete_by_id id
+    end
+
+    def exist?(id)
+      response =  @solr.get 'select', :params => {:q => "id:#{id}"}
+      (response["response"]['numFound'] == 0) ? false : true
     end
 
   end
