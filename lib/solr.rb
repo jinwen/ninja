@@ -41,7 +41,7 @@ module Ninja
         end
       end
 
-      @solr.add new_docs, :add_attributes => {:commitWithin => 10}
+      @solr.add new_docs
       
       update_docs.each do |doc|
         update_doc(doc)
