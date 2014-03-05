@@ -8,13 +8,12 @@ module Ninja
     @@solr_info = {:url => "http://10.20.10.249:8983/solr/ninja-prod"}
 
     def initialize
-      puts "initialize"
       @parser = QueryParser.new
       @solr_helper = Solr.new @@solr_info
     end
 
     def build_solr_index(project)
-      puts "Building solr index for project #{project}"
+      puts "Building solr index for project #{project}..."
       @github = Github.new(project)
       docs = @github.get_repo_info()
       @solr_helper.add_docs(docs)
@@ -22,18 +21,16 @@ module Ninja
     end
 
     def search_ninja(keywords)
-      puts "Searching people about \"#{keywords}\""
+      puts "Searching ninjas about \"#{keywords}\"..."
       solr_query = @parser.convert_to_solr_query keywords
       @solr_helper.search_keyword solr_query
     end
 
     def profile(id)
-      puts "Getting profile of \"#{id}\""
+      puts "Getting ninja profile of \"#{id}\"..."
       solr_query = @parser.convert_id_query id
-      ninjars = @solr_helper.search_profile solr_query
-      ninjars.each do |ninja|
-        ninja.map {|key, value| puts "#{key} : #{value}"}
-      end
+      ninjas = @solr_helper.search_profile solr_query
+      ninjas[0]
     end
   end
 end

@@ -30,10 +30,23 @@ when "build"
 when "search"
   ninjas = ninja.search_ninja param
   ninjas.each do |ninja|
-    puts "#{ninja['id']}: #{ninja['name']}"
+    puts "  #{ninja['id']}: #{ninja['name']}"
   end
 when "profile"
-  ninja.profile param
+  ninja = ninja.profile param
+  if ninja
+    puts "id:   #{ninja["id"]}"
+    puts "name: #{ninja["name"]}"
+    ninja.each do |key, value|
+      if (key != "id" && key != "name")
+        key_comp = key.split('_')
+        output_key = "#{key_comp[0..1].join('/')} #{key_comp[2..-2].join(' ')}" 
+        puts "#{output_key} : #{value}"
+      end
+    end
+  else
+    puts "Sorry, no ninja profile for #{param}"
+  end
 else
   p.educate
 end
