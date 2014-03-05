@@ -1,6 +1,14 @@
 require 'rubygems'
 require 'rsolr'
 
+module Ninja
+  class QueryParser
+    
+    def convert_to_solr_query(keywords)
+      #TODO
+    end
+  end
+end
 
 def getQueryStr(*key_words)
 

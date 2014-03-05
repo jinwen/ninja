@@ -2,6 +2,19 @@ require "json"
 require "octokit" # github API
 require 'rsolr' # solr API
 
+module Ninja
+  class Github
+    
+    def self.get_commits(project)
+      #TODO
+    end
+
+    def self.get_issues(project)
+      #TODO
+    end
+  end
+end
+
 ACCESS_TOKEN = '5d51d6c008713b6f03999d8f542d1f12e4de1b09'
 
 @client = Octokit::Client.new :access_token => ACCESS_TOKEN
