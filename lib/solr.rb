@@ -22,12 +22,6 @@ module Ninja
     end
 
     def add_docs(docs)
-      docs.each do |doc|
-        if exist? doc['id']
-          delete_doc(doc['id']);
-        end
-      end
-
       @solr.add docs, :add_attributes => {:commitWithin => 10}
       @solr.commit
     end
