@@ -28,6 +28,9 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
+app.get('/profile', routes.profile);
+app.get('/build', routes.build);
+app.get('/search', routes.search);
 app.get('/users', user.list);
 
 http.createServer(app).listen(app.get('port'), function(){

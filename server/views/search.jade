@@ -1,6 +1,14 @@
 extends layout
 
 block body
-  h1.text-center #{keyword}
+  div.container
+    table.table.table-striped.table-bordered
+      th Github ID
+      th Name
+      each index, val in results
+        tr
+          td
+            a(href="/profile?userId=#{val}") #{val}
+          td= index
 block body-additon
   script(src="/javascripts/bootstrap.min.js")
