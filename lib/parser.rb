@@ -92,7 +92,7 @@ module Ninja
     end
 
     def convert_id_query(id)
-      return "id:#{id} OR name:#{id}~"
+      return "id:#{id} OR name:#{id}"
     end
 
   end
