@@ -3,7 +3,7 @@ require_relative 'ninja'
 
 p = Trollop::Parser.new do
   banner <<-EOS
-Usage:                                                                           
+Usage:
    ninja [command] [options]
 
 [command] are:
