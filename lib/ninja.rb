@@ -16,7 +16,7 @@ module Ninja
     def build_solr_index(project)
       puts "Building solr index for project #{project}"
       @github = Github.new(project)
-      docs = @github.getRepoInfo()
+      docs = @github.get_repo_info()
       puts "finish"
       @solr_helper.add_docs(docs)
 

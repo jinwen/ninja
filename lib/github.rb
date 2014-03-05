@@ -28,12 +28,12 @@ module Ninja
       @records[contributor][@issue_comments] = []
     end
 
-    def getContributorName(contributor)
+    def get_contributor_name(contributor)
       contributor_info = @client.user contributor
       return contributor_info.name
     end
 
-    def getRepoIssues()
+    def get_repo_issues()
       issues_opened = @client.issues @repo, {:state => 'open'}
       issues_closed = @client.issues @repo, {:state => 'closed'}
       issues = issues_opened.concat(issues_closed)
@@ -52,7 +52,7 @@ module Ninja
     end
 
 
-    def getRepoIssueComments()
+    def get_repo_issue_comments()
       comments = @client.issues_comments @repo
       comments.each do |comment|
         if !@records.has_key?(comment.user.login)
@@ -62,7 +62,7 @@ module Ninja
       end
     end
 
-    def getRepoCommits()
+    def get_repo_commits()
       commits = @client.commits(@repo)
       commits.each do |commit|
         if commit.author
@@ -75,7 +75,7 @@ module Ninja
     end
 
 
-    def getRepoCommitComments()
+    def get_repo_commit_comments()
       comments = @client.list_commit_comments @repo
       comments.each do |comment|
         if !@records.has_key?(comment.user.login)
@@ -85,18 +85,18 @@ module Ninja
       end
     end
 
-    def getRepoInfo()
-      getRepoIssues()
-      #getRepoIssueComments()
-      #getRepoCommits()
-      #getRepoCommitComments()
+    def get_repo_info()
+      get_repo_issues()
+      get_repo_issue_comments()
+      get_repo_commits()
+      get_repo_commit_comments()
       @records.each do |id, content|
         [@opened_issues, @assigned_issues, @issue_comments, @commits, @commit_comments].each do |key|
           content[key+'_i'] = content[key].length
           content[key] = content[key].join("\n")
         end
         content['id'] = id
-        name = getContributorName(id)
+        name = get_contributor_name(id)
         content['name'] = name
       end
       return @records.values
@@ -106,5 +106,5 @@ end
 
 #repo = 'factual/scarecrow'
 #github = Ninja::Github.new(repo)
-#puts github.getRepoInfo()
+#puts github.get_repo_info()
 
