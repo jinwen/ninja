@@ -1,4 +1,5 @@
 require 'trollop'
+require_relative 'ninja'
 
 p = Trollop::Parser.new do
   banner <<-EOS
@@ -20,15 +21,16 @@ opts = Trollop::with_standard_exception_handling p do
   p.parse ARGV
 end
 
+ninja = Ninja::Ninja.new
 cmd   = ARGV.shift
 param = ARGV.join(' ')
 case cmd
 when "build"
-  puts "Building solr index for project #{param}"
+  ninja.build_solr_index param
 when "search"
-  puts "Searching people about \"#{param}\""
+  ninja.search_ninja param
 when "profile"
-  puts "Getting profile of \"#{param}\""
+  ninja.profile param
 else
   p.educate
 end
