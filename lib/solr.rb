@@ -23,7 +23,7 @@ module Ninja
     def search_profile(s)
       response = @solr.get 'select', :params => {:q => s}
       ninjas = response["response"]["docs"].map do |ninja|
-        ninja.keep_if {|key,value| key =~ /_i$/ || key == "name"}
+        ninja.keep_if {|key,value| key =~ /_i$/ || key == "name" || key == "id"}
       end
     end
 
