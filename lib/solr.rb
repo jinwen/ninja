@@ -1,6 +1,7 @@
 require 'json'
 require 'rubygems'
 require 'rsolr'
+require 'curl'
 
 module Ninja
   class Solr
@@ -28,8 +29,40 @@ module Ninja
     end
 
     def add_docs(docs)
-      @solr.add docs, :add_attributes => {:commitWithin => 10}
+      update_docs = []
+      new_docs=[]
+      docs.each do |doc|
+        if exist? doc['id']
+          update_docs << doc
+        else
+          new_docs << doc
+        end
+      end
+
+      @solr.add new_docs, :add_attributes => {:commitWithin => 10}
       @solr.commit
+      
+      update_docs.each do |doc|
+        update_doc(doc)
+      end
+    end
+
+    def update_doc(doc)
+      update_url = @url+"/update -H '' -d"
+
+      content = {}
+      content['id']=doc['id']
+      doc.map do |key,value|
+        if key != "id" && key != "name"
+          content[key] = {
+            "set" => value
+          }
+        end
+      end
+
+      http = Curl.post(@url+"/update", content) do |http|
+          http.headers['Content-type'] = 'application=json'
+      end
     end
 
     def delete_doc(id)
@@ -40,6 +73,5 @@ module Ninja
       response =  @solr.get 'select', :params => {:q => "id:#{id}"}
       (response["response"]['numFound'] == 0) ? false : true
     end
-
   end
 end
