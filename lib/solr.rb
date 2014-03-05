@@ -63,12 +63,16 @@ module Ninja
 
      json=JSON.generate([content]);
      json.gsub!("'"," ");
-     update_url = @url + "update"
+     update_url = @url + "/update"
      `curl #{update_url} -H 'Content-type:application/json' -d '#{json}'`
 
 #     http = Curl.post(update_url, JSON.generate([content])) do |http|
 #         http.headers['Content-type'] = 'application=json'
 #     end
+    end
+
+    def commit
+      @solr.commit
     end
 
     def delete_doc(id)
@@ -81,3 +85,7 @@ module Ninja
     end
   end
 end
+
+#solr = Ninja::Solr.new({:url => "http://10.20.10.249:8983/solr/ninja-prod"})
+#solr.update_doc({"id" => "jinwen", "good_commits" => "come on!"})
+#solr.commit
