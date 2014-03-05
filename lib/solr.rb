@@ -48,8 +48,6 @@ module Ninja
     end
 
     def update_doc(doc)
-      update_url = @url+"/update -H '' -d"
-
       content = {}
       content['id']=doc['id']
       doc.map do |key,value|
