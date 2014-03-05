@@ -30,8 +30,12 @@ module Ninja
     end
 
     def profile(id)
-      puts "Getting profile of \"#{param}\""
-      #TODO
+      puts "Getting profile of \"#{id}\""
+      solr_query = @parser.convert_id_query id
+      ninjars = @solr_helper.search_profile solr_query
+      ninjars.each do |ninja|
+        ninja.map {|key, value| puts "#{key} : #{value}"}
+      end
     end
   end
 end
