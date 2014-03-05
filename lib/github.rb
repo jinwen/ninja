@@ -4,12 +4,14 @@ require "octokit" # github API
 module Ninja
   class Github
     def initialize(repo)
-      @repo = repo
-      @assigned_issues = 'assigned_issues_'+repo
-      @opened_issues = 'opened_issues_'+repo
-      @issue_comments = 'issue_comments_'+repo
-      @commits = 'commits_'+repo
-      @commit_comments ='commit_comments_'+repo
+      @repo = String.new(repo)
+      srepo = repo.sub!('/', '_')
+
+      @assigned_issues = repo + '_assigned_issues'
+      @opened_issues = repo + '_opened_issues'
+      @issue_comments = repo + '_issue_comments'
+      @commits = repo + '_commits'
+      @commit_comments = repo + '_commit_comments'
       @records = {}
       @ACCESS_TOKEN = '5d51d6c008713b6f03999d8f542d1f12e4de1b09'
       @client = Octokit::Client.new :access_token => @ACCESS_TOKEN
@@ -26,11 +28,9 @@ module Ninja
       @records[contributor][@issue_comments] = []
     end
 
-    def getRepoContributors()
-      contributors = @client.contributors_stats @repo
-      contributors.each do |contributor|
-        puts contributor.author.login
-      end
+    def getContributorName(contributor)
+      contributor_info = @client.user contributor
+      return contributor_info.name
     end
 
     def getRepoIssues()
@@ -86,9 +86,9 @@ module Ninja
     end
 
     def getRepoInfo()
-      #getRepoIssues()
+      getRepoIssues()
       #getRepoIssueComments()
-      getRepoCommits()
+      #getRepoCommits()
       #getRepoCommitComments()
       @records.each do |id, content|
         [@opened_issues, @assigned_issues, @issue_comments, @commits, @commit_comments].each do |key|
@@ -96,13 +96,15 @@ module Ninja
           content[key] = content[key].join("\n")
         end
         content['id'] = id
+        name = getContributorName(id)
+        content['name'] = name
       end
-      return @records
+      return @records.values
     end
   end
 end
 
 #repo = 'factual/scarecrow'
 #github = Ninja::Github.new(repo)
-#github.getRepoInfo()
+#puts github.getRepoInfo()
 
