@@ -1,0 +1,11 @@
+extends layout
+
+block body
+  div.container
+    table.table.table-striped.table-bordered
+      each index, val in results
+        tr
+          td= val
+          td= index
+block body-additon
+  script(src="/javascripts/bootstrap.min.js")
