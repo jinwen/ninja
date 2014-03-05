@@ -13,7 +13,7 @@ module Ninja
       @records = {}
       @ACCESS_TOKEN = '5d51d6c008713b6f03999d8f542d1f12e4de1b09'
       @client = Octokit::Client.new :access_token => @ACCESS_TOKEN
-      Octokit.auto_paginate = true
+      @client.auto_paginate = true
     end
 
     def inital(contributor)
@@ -34,7 +34,9 @@ module Ninja
     end
 
     def getRepoIssues()
-      issues = @client.issues @repo
+      issues_opened = @client.issues @repo, {:state => 'open'}
+      issues_closed = @client.issues @repo, {:state => 'closed'}
+      issues = issues_opened.concat(issues_closed)
       issues.each do |issue|
         if issue.assignee
           if !@records.has_key?(issue.assignee.login)
@@ -63,10 +65,12 @@ module Ninja
     def getRepoCommits()
       commits = @client.commits(@repo)
       commits.each do |commit|
-        if !@records.has_key?(commit.author.login)
-          inital(commit.author.login)
+        if commit.author
+          if !@records.has_key?(commit.author.login)
+            inital(commit.author.login)
+          end
+          @records[commit.author.login][@commits] << commit.commit.message
         end
-        @records[commit.author.login][@commits] << commit.commit.message
       end
     end
 
@@ -82,10 +86,10 @@ module Ninja
     end
 
     def getRepoInfo()
-      getRepoIssues()
-      getRepoIssueComments()
+      #getRepoIssues()
+      #getRepoIssueComments()
       getRepoCommits()
-      getRepoCommitComments()
+      #getRepoCommitComments()
       @records.each do |id, content|
         [@opened_issues, @assigned_issues, @issue_comments, @commits, @commit_comments].each do |key|
           content[key+'_i'] = content[key].length
@@ -93,12 +97,12 @@ module Ninja
         end
         content['id'] = id
       end
-      puts @records
+      return @records
     end
   end
 end
 
-repo = 'factual/scarecrow'
-github = Ninja::Github.new(repo)
-github.getRepoInfo()
+#repo = 'factual/scarecrow'
+#github = Ninja::Github.new(repo)
+#github.getRepoInfo()
 
