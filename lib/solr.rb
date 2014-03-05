@@ -14,7 +14,6 @@ module Ninja
 
     def search_keyword(s)
       response = @solr.get 'select', :params => {:q => s}
-      warn response
       ninjas = response["response"]["docs"].map do |ninja|
         {
           "id" => ninja["id"],
