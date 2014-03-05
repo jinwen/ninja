@@ -29,7 +29,8 @@ module Ninja
     def profile(id)
       puts "Getting ninja profile of \"#{id}\"..."
       solr_query = @parser.convert_id_query id
-      @solr_helper.search_profile solr_query
+      ninjas = @solr_helper.search_profile solr_query
+      ninjas[0]
     end
   end
 end

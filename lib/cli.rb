@@ -33,9 +33,15 @@ when "search"
     puts "  #{ninja['id']}: #{ninja['name']}"
   end
 when "profile"
-  ninjas = ninja.profile param
-  ninjas.each do |ninja|
-    ninja.map {|key, value| puts "#{key} : #{value}"}
+  ninja = ninja.profile param
+  puts "id:   #{ninja["id"]}"
+  puts "name: #{ninja["name"]}"
+  ninja.each do |key, value|
+    if (key != "id" && key != "name")
+      key_comp = key.split('_')
+      output_key = "#{key_comp[0..1].join('/')} #{key_comp[2..-2].join(' ')}" 
+      puts "#{output_key} : #{value}"
+    end
   end
 else
   p.educate
