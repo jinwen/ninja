@@ -4,12 +4,13 @@ require 'rsolr'
 module Ninja
   class QueryParser
     
-    def convert_to_solr_query(*keywords)
-      return '*:*' if key_words.empty?
+    def convert_to_solr_query(query)
+      keywords = query.strip.split(" ")
+      return '*:*' if keywords.empty?
       
-      result_str = "commits:#{key_words[0]} OR assigned_issues:#{key_words[0]} OR opened_issues:#{key_words[0]}"
-      key_words.shift
-      key_words.each do |word|
+      result_str = "commits:#{keywords[0]} OR assigned_issues:#{keywords[0]} OR opened_issues:#{keywords[0]}"
+      keywords.shift
+      keywords.each do |word|
         result_str = result_str + " OR commits:#{word} OR assigned_issues:#{word} OR opened_issues:#{word}"
       end
 
