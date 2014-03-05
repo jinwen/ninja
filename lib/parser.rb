@@ -21,7 +21,17 @@ module Ninja
           repos << arg[1..-1]
         end
         repos.delete_if {|repo| repo.empty?}
-        repos.each{|repo| repo = repo.prepend('factual_') if repo.index(/^factual_/) == nil}
+        repos.each do |repo| 
+          case
+            when repo == 'hew'
+              repo.replace('hadoop-extraction-workflow')
+            when repo == 'sc'
+              repo.replace('scarecrow')
+            when repo == 'scr'
+              repo.replace('scarecrow-rules')
+          end
+          repo.prepend('factual_') if repo.index(/^factual_/) == nil
+        end
 
 
         if !args.empty? && (args.at(0).casecmp('or') == 0 || args.at(0).casecmp('and') == 0) then

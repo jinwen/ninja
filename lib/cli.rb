@@ -34,14 +34,18 @@ when "search"
   end
 when "profile"
   ninja = ninja.profile param
-  puts "id:   #{ninja["id"]}"
-  puts "name: #{ninja["name"]}"
-  ninja.each do |key, value|
-    if (key != "id" && key != "name")
-      key_comp = key.split('_')
-      output_key = "#{key_comp[0..1].join('/')} #{key_comp[2..-2].join(' ')}" 
-      puts "#{output_key} : #{value}"
+  if ninja
+    puts "id:   #{ninja["id"]}"
+    puts "name: #{ninja["name"]}"
+    ninja.each do |key, value|
+      if (key != "id" && key != "name")
+        key_comp = key.split('_')
+        output_key = "#{key_comp[0..1].join('/')} #{key_comp[2..-2].join(' ')}" 
+        puts "#{output_key} : #{value}"
+      end
     end
+  else
+    puts "Sorry, no ninja profile for #{param}"
   end
 else
   p.educate
