@@ -26,5 +26,14 @@ module Ninja
       @solr.commit
     end
 
+    def delete_doc(id)
+      @solr.delete_by_id id
+    end
+
+    def exist?(id)
+      response =  @solr.get 'select', :params => {:q => "id:#{id}"}
+      (response["response"]['numFound'] == 0) ? false : true
+    end
+
   end
 end
