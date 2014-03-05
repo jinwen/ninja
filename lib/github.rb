@@ -13,7 +13,7 @@ module Ninja
       @commits = repo + '_commits'
       @commit_comments = repo + '_commit_comments'
       @records = {}
-      @ACCESS_TOKEN = '5d51d6c008713b6f03999d8f542d1f12e4de1b09'
+      @ACCESS_TOKEN = 'ead904dc6b4dbff528cb49ab5af5b107c8fc3868'
       @client = Octokit::Client.new :access_token => @ACCESS_TOKEN
       @client.auto_paginate = true
     end
