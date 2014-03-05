@@ -21,6 +21,7 @@ module Ninja
       puts "Searching people about \"#{keywords}\""
       solr_query = @parser.convert_to_solr_query keywords
       ninjas = @solr_helper.search_keyword solr_query
+      puts ninjas
     end
 
     def profile(id)

@@ -12,7 +12,9 @@ module Ninja
 
     def search_keyword(s)
       response = @solr.get 'select', :params => {:q => s}
-      puts response
+      ninjas = response["response"]["docs"].map do |ninja|
+        ninja["id"]
+      end
     end
 
     def search_profile()
