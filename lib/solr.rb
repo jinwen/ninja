@@ -1,15 +1,14 @@
 require 'json'
 require 'rubygems'
 require 'rsolr'
-require 'curl'
-require 'uri'
+require 'curb'
 
 module Ninja
   class Solr
 
     def initialize(args)
-      @url=args[:url]
-      @solr=RSolr.connect :url => @url
+      @url  = args[:url]
+      @solr = RSolr.connect :url => @url
     end
 
     def search_keyword(s)
@@ -47,6 +46,7 @@ module Ninja
       end
 
       @solr.commit
+      @solr.optimize
     end
 
     def update_doc(doc)
@@ -63,15 +63,19 @@ module Ninja
      json=JSON.generate([content]);
      json.gsub!("'"," ");
      update_url = @url + "/update"
-     `curl #{update_url} -H 'Content-type:application/json' -d '#{json}'`
 
-#     http = Curl.post(update_url, JSON.generate([content])) do |http|
-#         http.headers['Content-type'] = 'application=json'
-#     end
+     #`curl #{update_url} -H 'Content-type:application/json' -d '#{json}'`
+     c = Curl::Easy.http_post(update_url, json) do |curl|
+       curl.headers['Content-Type'] = 'application/json'
+     end
     end
 
     def commit
       @solr.commit
+    end
+
+    def optimize
+      @solr.optimize
     end
 
     def delete_doc(id)
@@ -84,7 +88,3 @@ module Ninja
     end
   end
 end
-
-#solr = Ninja::Solr.new({:url => "http://10.20.10.249:8983/solr/ninja-prod"})
-#solr.update_doc({"id" => "jinwen", "good_commits" => "come on!"})
-#solr.commit
